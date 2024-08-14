@@ -1,6 +1,5 @@
 const gridEl = document.querySelector(".grid");
 
-const gameboardHidden = [];
 const gameMode = {
   beginner: {
     level: "beginner",
@@ -13,6 +12,12 @@ const gameMode = {
   },
 };
 
+const minesweeper = {
+  mine: "X",
+  blank: 0,
+};
+
+let minesweeperBoard;
 let timer = 0;
 
 function displayGame(level) {
@@ -26,4 +31,27 @@ function displayGame(level) {
   }
 }
 
+function loadMinesweeperBoard(level) {
+  minesweeperBoard = new Array(gameMode[level].gridSize).fill(
+    minesweeper.blank
+  );
+
+  function helper(mines) {
+    if (mines === 0) return;
+
+    const randomNumber = Math.floor(Math.random() * gameMode[level].gridSize);
+    if (minesweeperBoard[randomNumber] !== minesweeper.mine) {
+      minesweeperBoard[randomNumber] = minesweeper.mine;
+      mines--;
+    }
+
+    return helper(mines);
+  }
+
+  helper(gameMode[level].mines);
+  // todo: remove this
+  console.log(minesweeperBoard);
+}
+
 displayGame("beginner");
+loadMinesweeperBoard("beginner");
