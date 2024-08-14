@@ -1,2 +1,3 @@
-# minesweeper
-Minesweeper - Unit 1 Project 
+# Minesweeper
+
+Minesweeper - Unit 1 Project
