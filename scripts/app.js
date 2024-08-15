@@ -15,6 +15,7 @@ const gameMode = {
 const minesweeper = {
   mine: "💣",
   blank: "",
+  flag: "🚩",
 };
 
 const gameBoard = [];
@@ -165,6 +166,7 @@ function displayGameBoardHidden() {
 function gameOver() {
   gameBoard.forEach((cell) => {
     cell.removeEventListener("click", revealCell, false);
+    cell.removeEventListener("contextmenu", flagCell, false);
   });
 }
 
@@ -178,12 +180,35 @@ function revealAllMines() {
 }
 
 function revealCell(e) {
-  gameBoard[e.target.dataset.index].textContent =
-    gameBoardHidden[e.target.dataset.index];
-  if (gameBoardHidden[e.target.dataset.index] === minesweeper.mine) {
-    gameBoard[e.target.dataset.index].id = "active-mine";
-    revealAllMines();
-    gameOver();
+  const cellIndex = e.target.dataset.index;
+  if (!gameBoard[cellIndex].classList.contains("flag")) {
+    gameBoard[cellIndex].textContent = gameBoardHidden[cellIndex];
+    if (gameBoardHidden[cellIndex] === minesweeper.mine) {
+      gameBoard[cellIndex].id = "active-mine";
+      revealAllMines();
+      gameOver();
+    } else if (gameBoardHidden[cellIndex] === minesweeper.blank) {
+      // call recursive function
+      gameBoard[cellIndex].classList.add("blank");
+    } else {
+      gameBoard[cellIndex].classList.add("safe");
+    }
+  }
+}
+
+function flagCell(e) {
+  e.preventDefault();
+  const cellIndex = e.target.dataset.index;
+  if (
+    !gameBoard[cellIndex].classList.contains("blank") &&
+    !gameBoard[cellIndex].classList.contains("safe")
+  ) {
+    gameBoard[cellIndex].classList.toggle("flag");
+    if (gameBoard[cellIndex].classList.contains("flag")) {
+      gameBoard[cellIndex].textContent = minesweeper.flag;
+    } else {
+      gameBoard[cellIndex].textContent = "";
+    }
   }
 }
 
@@ -193,6 +218,7 @@ function displayGame(level) {
     cell.classList.add("cell");
     cell.dataset.index = i;
     cell.addEventListener("click", revealCell, false);
+    cell.addEventListener("contextmenu", flagCell, false);
     gameBoard.push(cell);
     gridEl.appendChild(cell);
   }
