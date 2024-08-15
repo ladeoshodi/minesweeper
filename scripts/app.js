@@ -14,7 +14,7 @@ const gameMode = {
 
 const minesweeper = {
   mine: "💣",
-  blank: 0,
+  blank: "",
 };
 
 const gameBoard = [];
@@ -125,25 +125,32 @@ function countAdjacentMines(level, startPos) {
   }
   return mineCount;
 }
-function loadMines(level, gameBoard, mines) {
+function loadMines(level, board, mines) {
   if (mines === 0) return;
 
   const randomNumber = Math.floor(Math.random() * gameMode[level].gridSize);
   if (
-    gameBoard[randomNumber] !== minesweeper.mine &&
+    board[randomNumber] !== minesweeper.mine &&
     countAdjacentMines(level, randomNumber) < 3
   ) {
-    gameBoard[randomNumber] = minesweeper.mine;
+    board[randomNumber] = minesweeper.mine;
     mines--;
   }
 
-  return loadMines(level, gameBoard, mines);
+  return loadMines(level, board, mines);
 }
 function loadGameBoardHidden(level) {
   gameBoardHidden = new Array(gameMode[level].gridSize).fill(minesweeper.blank);
 
   // load mines
   loadMines(level, gameBoardHidden, gameMode[level].mines);
+
+  // count adjacent bombs
+  gameBoardHidden.forEach((cell, index, arr) => {
+    if (cell !== minesweeper.mine && countAdjacentMines(level, index)) {
+      arr[index] = countAdjacentMines(level, index);
+    }
+  });
 
   // todo: remove this
   console.log(gameBoardHidden);
