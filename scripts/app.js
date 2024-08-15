@@ -162,6 +162,12 @@ function displayGameBoardHidden() {
   });
 }
 
+function gameOver() {
+  gameBoard.forEach((cell) => {
+    cell.removeEventListener("click", revealCell, false);
+  });
+}
+
 function revealAllMines() {
   gameBoardHidden.forEach((cell, index) => {
     if (cell === minesweeper.mine) {
@@ -177,6 +183,7 @@ function revealCell(e) {
   if (gameBoardHidden[e.target.dataset.index] === minesweeper.mine) {
     gameBoard[e.target.dataset.index].id = "active-mine";
     revealAllMines();
+    gameOver();
   }
 }
 
@@ -185,7 +192,7 @@ function displayGame(level) {
     const cell = document.createElement("div");
     cell.classList.add("cell");
     cell.dataset.index = i;
-    cell.addEventListener("click", revealCell);
+    cell.addEventListener("click", revealCell, false);
     gameBoard.push(cell);
     gridEl.appendChild(cell);
   }

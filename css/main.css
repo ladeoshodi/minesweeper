@@ -31,6 +31,10 @@ body {
   align-items: center;
 }
 
+.cell:hover {
+  cursor: pointer;
+}
+
 #active-mine,
 .mine {
   font-size: 1.6rem;
