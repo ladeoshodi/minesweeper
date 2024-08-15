@@ -13,24 +13,13 @@ const gameMode = {
 };
 
 const minesweeper = {
-  mine: "X",
+  mine: "💣",
   blank: 0,
 };
 
 const gameBoard = [];
 let gameBoardHidden;
 let timer = 0;
-
-function displayGame(level) {
-  for (let i = 0; i < gameMode[level].gridSize; i++) {
-    const cell = document.createElement("div");
-    cell.classList.add("cell");
-    cell.dataset.cellPosition = i;
-    // todo: remove this
-    cell.textContent = i;
-    gridEl.appendChild(cell);
-  }
-}
 
 function canMoveToTop(position, gridWidth) {
   return position >= gridWidth;
@@ -136,29 +125,46 @@ function countAdjacentMines(level, startPos) {
   }
   return mineCount;
 }
+function loadMines(level, gameBoard, mines) {
+  if (mines === 0) return;
 
+  const randomNumber = Math.floor(Math.random() * gameMode[level].gridSize);
+  if (
+    gameBoard[randomNumber] !== minesweeper.mine &&
+    countAdjacentMines(level, randomNumber) < 3
+  ) {
+    gameBoard[randomNumber] = minesweeper.mine;
+    mines--;
+  }
+
+  return loadMines(level, gameBoard, mines);
+}
 function loadGameBoardHidden(level) {
   gameBoardHidden = new Array(gameMode[level].gridSize).fill(minesweeper.blank);
 
-  function helper(mines) {
-    if (mines === 0) return;
+  // load mines
+  loadMines(level, gameBoardHidden, gameMode[level].mines);
 
-    const randomNumber = Math.floor(Math.random() * gameMode[level].gridSize);
-    if (
-      gameBoardHidden[randomNumber] !== minesweeper.mine &&
-      countAdjacentMines(level, randomNumber) < 3
-    ) {
-      gameBoardHidden[randomNumber] = minesweeper.mine;
-      mines--;
-    }
-
-    return helper(mines);
-  }
-
-  helper(gameMode[level].mines);
   // todo: remove this
   console.log(gameBoardHidden);
 }
 
+function displayGameBoardHidden() {
+  gameBoard.forEach((cell, index) => {
+    cell.textContent = gameBoardHidden[index];
+  });
+}
+
+function displayGame(level) {
+  for (let i = 0; i < gameMode[level].gridSize; i++) {
+    const cell = document.createElement("div");
+    cell.classList.add("cell");
+    cell.dataset.cellPosition = i;
+    gameBoard.push(cell);
+    gridEl.appendChild(cell);
+  }
+}
+
 displayGame("beginner");
 loadGameBoardHidden("beginner");
+displayGameBoardHidden();
