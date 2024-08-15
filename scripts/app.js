@@ -17,7 +17,8 @@ const minesweeper = {
   blank: 0,
 };
 
-let minesweeperBoard;
+const gameBoard = [];
+let gameBoardHidden;
 let timer = 0;
 
 function displayGame(level) {
@@ -62,21 +63,21 @@ function countAdjacentMines(level, startPos) {
   // count top
   if (canMoveToTop(startPos, gameMode[level].gridWidth)) {
     newPosition = startPos - gameMode[level].gridWidth;
-    if (minesweeperBoard[newPosition] === minesweeper.mine) {
+    if (gameBoardHidden[newPosition] === minesweeper.mine) {
       mineCount += 1;
     }
   }
   // count top right
   if (canMoveToTopRight(startPos, gameMode[level].gridWidth)) {
     newPosition = startPos + 1 - gameMode[level].gridWidth;
-    if (minesweeperBoard[newPosition] === minesweeper.mine) {
+    if (gameBoardHidden[newPosition] === minesweeper.mine) {
       mineCount += 1;
     }
   }
   // count right
   if (canMoveToRight(startPos, gameMode[level].gridWidth)) {
     newPosition = startPos + 1;
-    if (minesweeperBoard[newPosition] === minesweeper.mine) {
+    if (gameBoardHidden[newPosition] === minesweeper.mine) {
       mineCount += 1;
     }
   }
@@ -89,7 +90,7 @@ function countAdjacentMines(level, startPos) {
     )
   ) {
     newPosition = startPos + gameMode[level].gridWidth + 1;
-    if (minesweeperBoard[newPosition] === minesweeper.mine) {
+    if (gameBoardHidden[newPosition] === minesweeper.mine) {
       mineCount += 1;
     }
   }
@@ -102,7 +103,7 @@ function countAdjacentMines(level, startPos) {
     )
   ) {
     newPosition = startPos + gameMode[level].gridWidth;
-    if (minesweeperBoard[newPosition] === minesweeper.mine) {
+    if (gameBoardHidden[newPosition] === minesweeper.mine) {
       mineCount += 1;
     }
   }
@@ -115,41 +116,39 @@ function countAdjacentMines(level, startPos) {
     )
   ) {
     newPosition = startPos - 1 + gameMode[level].gridWidth;
-    if (minesweeperBoard[newPosition] === minesweeper.mine) {
+    if (gameBoardHidden[newPosition] === minesweeper.mine) {
       mineCount += 1;
     }
   }
   // count left
   if (canMoveToLeft(startPos, gameMode[level].gridWidth)) {
     newPosition = startPos - 1;
-    if (minesweeperBoard[newPosition] === minesweeper.mine) {
+    if (gameBoardHidden[newPosition] === minesweeper.mine) {
       mineCount += 1;
     }
   }
   // count top left
   if (canMoveToTopLeft(startPos, gameMode[level].gridWidth)) {
     newPosition = startPos - gameMode[level].gridWidth - 1;
-    if (minesweeperBoard[newPosition] === minesweeper.mine) {
+    if (gameBoardHidden[newPosition] === minesweeper.mine) {
       mineCount += 1;
     }
   }
   return mineCount;
 }
 
-function loadMinesweeperBoard(level) {
-  minesweeperBoard = new Array(gameMode[level].gridSize).fill(
-    minesweeper.blank
-  );
+function loadGameBoardHidden(level) {
+  gameBoardHidden = new Array(gameMode[level].gridSize).fill(minesweeper.blank);
 
   function helper(mines) {
     if (mines === 0) return;
 
     const randomNumber = Math.floor(Math.random() * gameMode[level].gridSize);
     if (
-      minesweeperBoard[randomNumber] !== minesweeper.mine &&
+      gameBoardHidden[randomNumber] !== minesweeper.mine &&
       countAdjacentMines(level, randomNumber) < 3
     ) {
-      minesweeperBoard[randomNumber] = minesweeper.mine;
+      gameBoardHidden[randomNumber] = minesweeper.mine;
       mines--;
     }
 
@@ -158,8 +157,8 @@ function loadMinesweeperBoard(level) {
 
   helper(gameMode[level].mines);
   // todo: remove this
-  console.log(minesweeperBoard);
+  console.log(gameBoardHidden);
 }
 
 displayGame("beginner");
-loadMinesweeperBoard("beginner");
+loadGameBoardHidden("beginner");
