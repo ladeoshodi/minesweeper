@@ -162,18 +162,30 @@ function displayGameBoardHidden() {
   });
 }
 
+function revealAllMines() {
+  gameBoardHidden.forEach((cell, index) => {
+    if (cell === minesweeper.mine) {
+      gameBoard[index].textContent = cell;
+      gameBoard[index].classList.add("mine");
+    }
+  });
+}
+
+function revealCell(e) {
+  gameBoard[e.target.dataset.index].textContent =
+    gameBoardHidden[e.target.dataset.index];
+  if (gameBoardHidden[e.target.dataset.index] === minesweeper.mine) {
+    gameBoard[e.target.dataset.index].id = "active-mine";
+    revealAllMines();
+  }
+}
+
 function displayGame(level) {
   for (let i = 0; i < gameMode[level].gridSize; i++) {
     const cell = document.createElement("div");
     cell.classList.add("cell");
     cell.dataset.index = i;
-    cell.addEventListener("click", (e) => {
-      gameBoard[e.target.dataset.index].textContent =
-        gameBoardHidden[e.target.dataset.index];
-      if (gameBoardHidden[e.target.dataset.index] === minesweeper.mine) {
-        console.log("BOOOM!");
-      }
-    });
+    cell.addEventListener("click", revealCell);
     gameBoard.push(cell);
     gridEl.appendChild(cell);
   }
