@@ -169,24 +169,143 @@ function revealAllMines() {
   });
 }
 
-function revealAdjacentBlankSquares(level, position, startPos) {
-  // let traverseUp = startPos
-  // traverse up
-  if (canMoveToTop(position, gameMode[level].gridWidth)) {
-    position -= gameMode[level].gridWidth;
+function revealAdjacentBlankSquares(level, startPos) {
+  const traverse = {
+    up: startPos,
+    topRight: startPos,
+    right: startPos,
+    bottomRight: startPos,
+    bottom: startPos,
+    bottomLeft: startPos,
+    left: startPos,
+    topLeft: startPos,
+    get canMoveUp() {
+      return (
+        canMoveToTop(this.up, gameMode[level].gridWidth) &&
+        gameBoardHidden[this.up] === minesweeper.blank
+      );
+    },
+    get canMoveTopRight() {
+      return (
+        canMoveToTopRight(this.topRight, gameMode[level].gridWidth) &&
+        gameBoardHidden[this.topRight] === minesweeper.blank
+      );
+    },
+    get canMoveRight() {
+      return (
+        canMoveToRight(this.right, gameMode[level].gridWidth) &&
+        gameBoardHidden[this.right] === minesweeper.blank
+      );
+    },
+    get canMoveBottomRight() {
+      return (
+        canMoveToBottomRight(
+          this.bottomRight,
+          gameMode[level].gridWidth,
+          gameMode[level].gridSize
+        ) && gameBoardHidden[this.bottomRight] === minesweeper.blank
+      );
+    },
+    get canMoveBottom() {
+      return (
+        canMoveToBottom(
+          this.bottom,
+          gameMode[level].gridWidth,
+          gameMode[level].gridSize
+        ) && gameBoardHidden[this.bottom] === minesweeper.blank
+      );
+    },
+    get canMoveBottomLeft() {
+      return (
+        canMoveToBottomLeft(
+          this.bottomLeft,
+          gameMode[level].gridWidth,
+          gameMode[level].gridSize
+        ) && gameBoardHidden[this.bottomLeft] === minesweeper.blank
+      );
+    },
+    get canMoveLeft() {
+      return (
+        canMoveToLeft(this.left, gameMode[level].gridWidth) &&
+        gameBoardHidden[this.left] === minesweeper.blank
+      );
+    },
+    get canMoveTopLeft() {
+      return (
+        canMoveToTopLeft(this.topLeft, gameMode[level].gridWidth) &&
+        gameBoardHidden[this.topLeft] === minesweeper.blank
+      );
+    },
+  };
+
+  function revealSquare(position) {
     if (gameBoardHidden[position] === minesweeper.blank) {
       gameBoard[position].classList.add("blank");
-      return revealAdjacentBlankSquares(level, position, startPos);
     } else {
       gameBoard[position].classList.add("safe");
     }
   }
-  return;
-  //   function traverseHelper(position) {}
+
+  function revealAdjacentCellsHelper(position) {
+    let newPosition;
+    // reveal top square
+    if (traverse.canMoveUp) {
+      newPosition = position - gameMode[level].gridWidth;
+      revealSquare(newPosition);
+    }
+    // reveal top right square
+    if (traverse.canMoveTopRight) {
+      newPosition = position + 1 - gameMode[level].gridWidth;
+      revealSquare(newPosition);
+    }
+    // reveal right square
+    if (traverse.canMoveRight) {
+      newPosition = position + 1;
+      revealSquare(newPosition);
+    }
+    // reveal bottom right square
+    if (traverse.canMoveBottomRight) {
+      newPosition = position + gameMode[level].gridWidth + 1;
+      revealSquare(newPosition);
+    }
+    // reveal bottom
+    if (traverse.canMoveBottom) {
+      newPosition = position + gameMode[level].gridWidth;
+      revealSquare(newPosition);
+    }
+    // reveal bottom left
+    if (traverse.canMoveBottomLeft) {
+      newPosition = position - 1 + gameMode[level].gridWidth;
+      revealSquare(newPosition);
+    }
+
+    // reveal left
+    if (traverse.canMoveLeft) {
+      newPosition = position - 1;
+      revealSquare(newPosition);
+    }
+
+    // reveal top left
+    if (traverse.canMoveTopLeft) {
+      newPosition = position - gameMode[level].gridWidth - 1;
+      revealSquare(newPosition);
+    }
+  }
+
+  function traverseHelper() {
+    // traverse up
+    if (traverse.canMoveUp) {
+      revealAdjacentCellsHelper(traverse.up);
+      traverse.up -= gameMode[level].gridWidth;
+      return traverseHelper();
+    }
+  }
+
+  return traverseHelper();
 }
 
 function revealCell(e) {
-  const cellIndex = e.target.dataset.index;
+  const cellIndex = Number(e.target.dataset.index);
   const level = gridEl.dataset.level;
   if (!gameBoard[cellIndex].classList.contains("flag")) {
     gameBoard[cellIndex].textContent = gameBoardHidden[cellIndex];
@@ -197,7 +316,7 @@ function revealCell(e) {
     } else if (gameBoardHidden[cellIndex] === minesweeper.blank) {
       gameBoard[cellIndex].classList.add("blank");
       // call recursive function
-      revealAdjacentBlankSquares(level, cellIndex, cellIndex);
+      revealAdjacentBlankSquares(level, cellIndex);
     } else {
       gameBoard[cellIndex].classList.add("safe");
     }
