@@ -247,102 +247,79 @@ function revealAdjacentBlankSquares(level, startPos) {
     }
   }
 
-  function revealAdjacentCellsHelper(position) {
-    let newPosition;
-    // reveal top square
+  function revealAdjacentCells() {
     if (traverse.canMoveUp) {
-      newPosition = position - gameMode[level].gridWidth;
-      revealSquare(newPosition);
+      revealSquare(traverse.up - gameMode[level].gridWidth);
     }
-    // reveal top right square
     if (traverse.canMoveTopRight) {
-      newPosition = position + 1 - gameMode[level].gridWidth;
-      revealSquare(newPosition);
+      revealSquare(traverse.topRight + 1 - gameMode[level].gridWidth);
     }
-    // reveal right square
     if (traverse.canMoveRight) {
-      newPosition = position + 1;
-      revealSquare(newPosition);
+      revealSquare(traverse.right + 1);
     }
-    // reveal bottom right square
     if (traverse.canMoveBottomRight) {
-      newPosition = position + gameMode[level].gridWidth + 1;
-      revealSquare(newPosition);
+      revealSquare(traverse.bottomRight + gameMode[level].gridWidth + 1);
     }
-    // reveal bottom
     if (traverse.canMoveBottom) {
-      newPosition = position + gameMode[level].gridWidth;
-      revealSquare(newPosition);
+      revealSquare(traverse.bottom + gameMode[level].gridWidth);
     }
-    // reveal bottom left
     if (traverse.canMoveBottomLeft) {
-      newPosition = position - 1 + gameMode[level].gridWidth;
-      revealSquare(newPosition);
+      revealSquare(traverse.bottomLeft - 1 + gameMode[level].gridWidth);
     }
-    // reveal left
     if (traverse.canMoveLeft) {
-      newPosition = position - 1;
-      revealSquare(newPosition);
+      revealSquare(traverse.left - 1);
     }
-    // reveal top left
     if (traverse.canMoveTopLeft) {
-      newPosition = position - gameMode[level].gridWidth - 1;
-      revealSquare(newPosition);
+      revealSquare(traverse.topLeft - gameMode[level].gridWidth - 1);
     }
   }
-
-  function traverseHelper() {
-    // traverse up
-    if (traverse.canMoveUp) {
-      revealAdjacentCellsHelper(traverse.up);
-      traverse.up -= gameMode[level].gridWidth;
-      return traverseHelper();
-    }
-    // traverse top right
-    if (traverse.canMoveTopRight) {
-      revealAdjacentCellsHelper(traverse.topRight);
-      traverse.topRight += 1 - gameMode[level].gridWidth;
-      return traverseHelper();
-    }
-    // traverse right
-    if (traverse.canMoveRight) {
-      revealAdjacentCellsHelper(traverse.right);
-      traverse.right += 1;
-      return traverseHelper();
-    }
-    // traverse bottom right
-    if (traverse.canMoveBottomRight) {
-      revealAdjacentCellsHelper(traverse.bottomRight);
-      traverse.bottomRight += 1 + gameMode[level].gridWidth;
-      return traverseHelper();
-    }
-    // traverse bottom
-    if (traverse.canMoveBottom) {
-      revealAdjacentCellsHelper(traverse.bottom);
-      traverse.bottom += gameMode[level].gridWidth;
-      return traverseHelper();
-    }
-    // traverse bottom left
-    if (traverse.canMoveBottomLeft) {
-      revealAdjacentCellsHelper(traverse.bottomLeft);
-      traverse.bottomLeft -= 1 + gameMode[level].gridWidth;
-      return traverseHelper();
-    }
-    // traverse left
-    if (traverse.canMoveLeft) {
-      revealAdjacentCellsHelper(traverse.left);
-      traverse.left -= 1;
-      return traverseHelper();
-    }
-    // traverse top left
-    if (traverse.canMoveTopLeft) {
-      revealAdjacentCellsHelper(traverse.topLeft);
-      traverse.topLeft += -1 - gameMode[level].gridWidth;
-      return traverseHelper();
-    }
+  if (traverse.canMoveUp) {
+    revealAdjacentCells();
+    revealAdjacentBlankSquares(level, traverse.up - gameMode[level].gridWidth);
   }
-
-  return traverseHelper();
+  if (traverse.canMoveTopRight) {
+    revealAdjacentCells();
+    revealAdjacentBlankSquares(
+      level,
+      traverse.topRight + 1 - gameMode[level].gridWidth
+    );
+  }
+  if (traverse.canMoveRight) {
+    revealAdjacentCells();
+    revealAdjacentBlankSquares(level, traverse.right + 1);
+  }
+  if (traverse.canMoveBottomRight) {
+    revealAdjacentCells();
+    revealAdjacentBlankSquares(
+      level,
+      traverse.bottomRight + gameMode[level].gridWidth + 1
+    );
+  }
+  if (traverse.canMoveBottom) {
+    revealAdjacentCells();
+    revealAdjacentBlankSquares(
+      level,
+      traverse.bottom + gameMode[level].gridWidth
+    );
+  }
+  if (traverse.canMoveBottomLeft) {
+    revealAdjacentCells();
+    revealAdjacentBlankSquares(
+      level,
+      traverse.bottomLeft - 1 + gameMode[level].gridWidth
+    );
+  }
+  if (traverse.canMoveLeft) {
+    revealAdjacentCells();
+    revealAdjacentBlankSquares(level, traverse.left - 1);
+  }
+  if (traverse.canMoveTopLeft) {
+    revealAdjacentCells();
+    revealAdjacentBlankSquares(
+      level,
+      traverse.topLeft - gameMode[level].gridWidth - 1
+    );
+  }
 }
 
 function revealCell(e) {
