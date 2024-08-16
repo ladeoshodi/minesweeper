@@ -126,20 +126,19 @@ function countAdjacentMines(level, startPos) {
   }
   return mineCount;
 }
+
 function loadMines(level, board, mines) {
   if (mines === 0) return;
 
   const randomNumber = Math.floor(Math.random() * gameMode[level].gridSize);
-  if (
-    board[randomNumber] !== minesweeper.mine &&
-    countAdjacentMines(level, randomNumber) < 3
-  ) {
+  if (board[randomNumber] !== minesweeper.mine) {
     board[randomNumber] = minesweeper.mine;
     mines--;
   }
 
   return loadMines(level, board, mines);
 }
+
 function loadGameBoardHidden(level) {
   gameBoardHidden = new Array(gameMode[level].gridSize).fill(minesweeper.blank);
 
@@ -152,21 +151,12 @@ function loadGameBoardHidden(level) {
       arr[index] = countAdjacentMines(level, index);
     }
   });
-
-  // todo: remove this
-  console.log(gameBoardHidden);
-}
-
-function displayGameBoardHidden() {
-  gameBoard.forEach((cell, index) => {
-    cell.textContent = gameBoardHidden[index];
-  });
 }
 
 function gameOver() {
   gameBoard.forEach((cell) => {
-    cell.removeEventListener("click", revealCell, false);
-    cell.removeEventListener("contextmenu", flagCell, false);
+    cell.removeEventListener("click", revealCell);
+    cell.removeEventListener("contextmenu", flagCell);
   });
 }
 
@@ -179,8 +169,25 @@ function revealAllMines() {
   });
 }
 
+function revealAdjacentBlankSquares(level, position, startPos) {
+  // let traverseUp = startPos
+  // traverse up
+  if (canMoveToTop(position, gameMode[level].gridWidth)) {
+    position -= gameMode[level].gridWidth;
+    if (gameBoardHidden[position] === minesweeper.blank) {
+      gameBoard[position].classList.add("blank");
+      return revealAdjacentBlankSquares(level, position, startPos);
+    } else {
+      gameBoard[position].classList.add("safe");
+    }
+  }
+  return;
+  //   function traverseHelper(position) {}
+}
+
 function revealCell(e) {
   const cellIndex = e.target.dataset.index;
+  const level = gridEl.dataset.level;
   if (!gameBoard[cellIndex].classList.contains("flag")) {
     gameBoard[cellIndex].textContent = gameBoardHidden[cellIndex];
     if (gameBoardHidden[cellIndex] === minesweeper.mine) {
@@ -188,8 +195,9 @@ function revealCell(e) {
       revealAllMines();
       gameOver();
     } else if (gameBoardHidden[cellIndex] === minesweeper.blank) {
-      // call recursive function
       gameBoard[cellIndex].classList.add("blank");
+      // call recursive function
+      revealAdjacentBlankSquares(level, cellIndex, cellIndex);
     } else {
       gameBoard[cellIndex].classList.add("safe");
     }
@@ -213,12 +221,13 @@ function flagCell(e) {
 }
 
 function displayGame(level) {
+  gridEl.dataset.level = gameMode[level].level;
   for (let i = 0; i < gameMode[level].gridSize; i++) {
     const cell = document.createElement("div");
     cell.classList.add("cell");
     cell.dataset.index = i;
-    cell.addEventListener("click", revealCell, false);
-    cell.addEventListener("contextmenu", flagCell, false);
+    cell.addEventListener("click", revealCell);
+    cell.addEventListener("contextmenu", flagCell);
     gameBoard.push(cell);
     gridEl.appendChild(cell);
   }
@@ -226,4 +235,15 @@ function displayGame(level) {
 
 loadGameBoardHidden("beginner");
 displayGame("beginner");
-// displayGameBoardHidden();
+
+// todo: For Debugging minesweeper game (remove later)
+function displayGameBoardHidden() {
+  gameBoard.forEach((cell, index) => {
+    cell.textContent = gameBoardHidden[index];
+  });
+}
+
+// todo: remove this
+console.log(gameBoardHidden);
+
+displayGameBoardHidden();
