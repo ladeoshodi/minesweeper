@@ -169,20 +169,20 @@ function revealAllMines() {
   });
 }
 
-function revealAdjacentBlankSquares(level, startPos) {
-  function revealSquare(position) {
-    if (!gameBoard[position].classList.contains("revealed")) {
-      if (gameBoardHidden[position] === minesweeper.blank) {
-        gameBoard[position].classList.add("blank");
-        gameBoard[position].classList.add("revealed");
-      } else {
-        gameBoard[position].classList.add("safe");
-        gameBoard[position].classList.add("revealed");
-        gameBoard[position].textContent = gameBoardHidden[position];
-      }
+function revealSquare(position) {
+  if (!gameBoard[position].classList.contains("revealed")) {
+    if (gameBoardHidden[position] === minesweeper.blank) {
+      gameBoard[position].classList.add("blank");
+      gameBoard[position].classList.add("revealed");
+    } else {
+      gameBoard[position].classList.add("safe");
+      gameBoard[position].classList.add("revealed");
+      gameBoard[position].textContent = gameBoardHidden[position];
     }
   }
+}
 
+function revealAdjacentBlankSquares(level, startPos) {
   if (
     !countAdjacentMines(level, startPos) &&
     !gameBoard[startPos].classList.contains("revealed")
@@ -224,7 +224,7 @@ function revealCell(e) {
       // call recursive function
       revealAdjacentBlankSquares(level, cellIndex);
     } else {
-      gameBoard[cellIndex].classList.add("safe");
+      revealSquare(cellIndex);
     }
   }
 }
@@ -270,4 +270,4 @@ function displayGameBoardHidden() {
 
 // todo: remove this
 console.log(gameBoardHidden);
-displayGameBoardHidden();
+// displayGameBoardHidden();
