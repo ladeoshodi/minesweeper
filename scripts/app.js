@@ -170,155 +170,44 @@ function revealAllMines() {
 }
 
 function revealAdjacentBlankSquares(level, startPos) {
-  const traverse = {
-    up: startPos,
-    topRight: startPos,
-    right: startPos,
-    bottomRight: startPos,
-    bottom: startPos,
-    bottomLeft: startPos,
-    left: startPos,
-    topLeft: startPos,
-    get canMoveUp() {
-      return (
-        canMoveToTop(this.up, gameMode[level].gridWidth) &&
-        gameBoardHidden[this.up] === minesweeper.blank
-      );
-    },
-    get canMoveTopRight() {
-      return (
-        canMoveToTopRight(this.topRight, gameMode[level].gridWidth) &&
-        gameBoardHidden[this.topRight] === minesweeper.blank
-      );
-    },
-    get canMoveRight() {
-      return (
-        canMoveToRight(this.right, gameMode[level].gridWidth) &&
-        gameBoardHidden[this.right] === minesweeper.blank
-      );
-    },
-    get canMoveBottomRight() {
-      return (
-        canMoveToBottomRight(
-          this.bottomRight,
-          gameMode[level].gridWidth,
-          gameMode[level].gridSize
-        ) && gameBoardHidden[this.bottomRight] === minesweeper.blank
-      );
-    },
-    get canMoveBottom() {
-      return (
-        canMoveToBottom(
-          this.bottom,
-          gameMode[level].gridWidth,
-          gameMode[level].gridSize
-        ) && gameBoardHidden[this.bottom] === minesweeper.blank
-      );
-    },
-    get canMoveBottomLeft() {
-      return (
-        canMoveToBottomLeft(
-          this.bottomLeft,
-          gameMode[level].gridWidth,
-          gameMode[level].gridSize
-        ) && gameBoardHidden[this.bottomLeft] === minesweeper.blank
-      );
-    },
-    get canMoveLeft() {
-      return (
-        canMoveToLeft(this.left, gameMode[level].gridWidth) &&
-        gameBoardHidden[this.left] === minesweeper.blank
-      );
-    },
-    get canMoveTopLeft() {
-      return (
-        canMoveToTopLeft(this.topLeft, gameMode[level].gridWidth) &&
-        gameBoardHidden[this.topLeft] === minesweeper.blank
-      );
-    },
-  };
-
   function revealSquare(position) {
-    if (gameBoardHidden[position] === minesweeper.blank) {
-      gameBoard[position].classList.add("blank");
-    } else {
-      gameBoard[position].classList.add("safe");
-      gameBoard[position].textContent = gameBoardHidden[position];
+    if (!gameBoard[position].classList.contains("revealed")) {
+      if (gameBoardHidden[position] === minesweeper.blank) {
+        gameBoard[position].classList.add("blank");
+        gameBoard[position].classList.add("revealed");
+      } else {
+        gameBoard[position].classList.add("safe");
+        gameBoard[position].classList.add("revealed");
+        gameBoard[position].textContent = gameBoardHidden[position];
+      }
     }
   }
 
-  function revealAdjacentCells() {
-    if (traverse.canMoveUp) {
-      revealSquare(traverse.up - gameMode[level].gridWidth);
+  if (
+    !countAdjacentMines(level, startPos) &&
+    !gameBoard[startPos].classList.contains("revealed")
+  ) {
+    revealSquare(startPos);
+    if (canMoveToTop(startPos, gameMode[level].gridWidth)) {
+      revealAdjacentBlankSquares(level, startPos - gameMode[level].gridWidth);
     }
-    if (traverse.canMoveTopRight) {
-      revealSquare(traverse.topRight + 1 - gameMode[level].gridWidth);
+    if (canMoveToRight(startPos, gameMode[level].gridWidth)) {
+      revealAdjacentBlankSquares(level, startPos + 1);
     }
-    if (traverse.canMoveRight) {
-      revealSquare(traverse.right + 1);
+    if (canMoveToLeft(startPos, gameMode[level].gridWidth)) {
+      revealAdjacentBlankSquares(level, startPos - 1);
     }
-    if (traverse.canMoveBottomRight) {
-      revealSquare(traverse.bottomRight + gameMode[level].gridWidth + 1);
+    if (
+      canMoveToBottom(
+        startPos,
+        gameMode[level].gridWidth,
+        gameMode[level].gridSize
+      )
+    ) {
+      revealAdjacentBlankSquares(level, startPos + gameMode[level].gridWidth);
     }
-    if (traverse.canMoveBottom) {
-      revealSquare(traverse.bottom + gameMode[level].gridWidth);
-    }
-    if (traverse.canMoveBottomLeft) {
-      revealSquare(traverse.bottomLeft - 1 + gameMode[level].gridWidth);
-    }
-    if (traverse.canMoveLeft) {
-      revealSquare(traverse.left - 1);
-    }
-    if (traverse.canMoveTopLeft) {
-      revealSquare(traverse.topLeft - gameMode[level].gridWidth - 1);
-    }
-  }
-  if (traverse.canMoveUp) {
-    revealAdjacentCells();
-    revealAdjacentBlankSquares(level, traverse.up - gameMode[level].gridWidth);
-  }
-  if (traverse.canMoveTopRight) {
-    revealAdjacentCells();
-    revealAdjacentBlankSquares(
-      level,
-      traverse.topRight + 1 - gameMode[level].gridWidth
-    );
-  }
-  if (traverse.canMoveRight) {
-    revealAdjacentCells();
-    revealAdjacentBlankSquares(level, traverse.right + 1);
-  }
-  if (traverse.canMoveBottomRight) {
-    revealAdjacentCells();
-    revealAdjacentBlankSquares(
-      level,
-      traverse.bottomRight + gameMode[level].gridWidth + 1
-    );
-  }
-  if (traverse.canMoveBottom) {
-    revealAdjacentCells();
-    revealAdjacentBlankSquares(
-      level,
-      traverse.bottom + gameMode[level].gridWidth
-    );
-  }
-  if (traverse.canMoveBottomLeft) {
-    revealAdjacentCells();
-    revealAdjacentBlankSquares(
-      level,
-      traverse.bottomLeft - 1 + gameMode[level].gridWidth
-    );
-  }
-  if (traverse.canMoveLeft) {
-    revealAdjacentCells();
-    revealAdjacentBlankSquares(level, traverse.left - 1);
-  }
-  if (traverse.canMoveTopLeft) {
-    revealAdjacentCells();
-    revealAdjacentBlankSquares(
-      level,
-      traverse.topLeft - gameMode[level].gridWidth - 1
-    );
+  } else {
+    revealSquare(startPos);
   }
 }
 
@@ -332,7 +221,6 @@ function revealCell(e) {
       revealAllMines();
       gameOver();
     } else if (gameBoardHidden[cellIndex] === minesweeper.blank) {
-      gameBoard[cellIndex].classList.add("blank");
       // call recursive function
       revealAdjacentBlankSquares(level, cellIndex);
     } else {
@@ -382,5 +270,4 @@ function displayGameBoardHidden() {
 
 // todo: remove this
 console.log(gameBoardHidden);
-
 displayGameBoardHidden();
