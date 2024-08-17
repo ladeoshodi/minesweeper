@@ -206,6 +206,42 @@ function revealAdjacentBlankSquares(level, startPos) {
     ) {
       revealAdjacentBlankSquares(level, startPos + gameMode[level].gridWidth);
     }
+    if (canMoveToTopRight(startPos, gameMode[level].gridWidth)) {
+      revealAdjacentBlankSquares(
+        level,
+        startPos + 1 - gameMode[level].gridWidth
+      );
+    }
+    if (
+      canMoveToBottomRight(
+        startPos,
+        gameMode[level].gridWidth,
+        gameMode[level].gridSize
+      )
+    ) {
+      revealAdjacentBlankSquares(
+        level,
+        startPos + gameMode[level].gridWidth + 1
+      );
+    }
+    if (canMoveToTopLeft(startPos, gameMode[level].gridWidth)) {
+      revealAdjacentBlankSquares(
+        level,
+        startPos - gameMode[level].gridWidth - 1
+      );
+    }
+    if (
+      canMoveToBottomLeft(
+        startPos,
+        gameMode[level].gridWidth,
+        gameMode[level].gridSize
+      )
+    ) {
+      revealAdjacentBlankSquares(
+        level,
+        startPos - 1 + gameMode[level].gridWidth
+      );
+    }
   } else {
     revealSquare(startPos);
   }
