@@ -27,6 +27,7 @@ const timer = {
 
 let gameBoardHidden;
 let timerIntervalInt;
+let flaggedMines = 0;
 
 function canMoveToTop(position, gridWidth) {
   return position >= gridWidth;
@@ -288,16 +289,23 @@ function flagCell(e) {
   e.preventDefault();
   startTimer();
   const cellIndex = e.target.dataset.index;
+  const level = gridEl.dataset.level;
   if (
     !gameBoard[cellIndex].classList.contains("blank") &&
     !gameBoard[cellIndex].classList.contains("safe")
   ) {
-    gameBoard[cellIndex].classList.toggle("flag");
-    if (gameBoard[cellIndex].classList.contains("flag")) {
-      gameBoard[cellIndex].textContent = minesweeper.flag;
+    if (!gameBoard[cellIndex].classList.contains("flag")) {
+      if (flaggedMines < gameMode[level].mines) {
+        gameBoard[cellIndex].classList.add("flag");
+        gameBoard[cellIndex].textContent = minesweeper.flag;
+        flaggedMines += 1;
+      }
     } else {
+      gameBoard[cellIndex].classList.remove("flag");
       gameBoard[cellIndex].textContent = "";
+      flaggedMines -= 1;
     }
+    mineCountDisplay.textContent = gameMode[level].mines - flaggedMines;
   }
 }
 
@@ -305,6 +313,7 @@ function displayGame(level) {
   gridEl.classList.add(gameMode[level].level);
   gridEl.dataset.level = gameMode[level].level;
   timerDisplay.textContent = timer.time;
+  mineCountDisplay.textContent = gameMode[level].mines - flaggedMines;
   for (let i = 0; i < gameMode[level].gridSize; i++) {
     const cell = document.createElement("div");
     cell.classList.add("cell");
