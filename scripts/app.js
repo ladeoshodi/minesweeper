@@ -3,6 +3,8 @@ const gridWrapperEl = document.querySelector(".grid-wrapper");
 const mineCountDisplay = document.querySelector(".mine-count");
 const reset = document.querySelector(".reset");
 const timerDisplay = document.querySelector(".timer");
+const dialog = document.querySelector(".result-dialog");
+const closeResultDialog = document.querySelector(".result-dialog button");
 
 const gameMode = {
   beginner: {
@@ -322,7 +324,7 @@ function flagCell(e) {
   if (isGameWon(level)) {
     gameOver();
     reset.textContent = "😎";
-    alert("You win!!!");
+    dialog.showModal();
   }
 }
 
@@ -358,6 +360,10 @@ function startNewGame() {
 
 reset.addEventListener("click", startNewGame);
 
+closeResultDialog.addEventListener("click", () => {
+  dialog.close();
+});
+
 displayGame("beginner");
 
 // todo: For Debugging minesweeper game (remove later)
@@ -369,4 +375,4 @@ function displayGameBoardHidden() {
 
 // todo: remove this
 // console.log(gameBoardHidden);
-// displayGameBoardHidden();
+displayGameBoardHidden();
