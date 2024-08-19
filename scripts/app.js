@@ -1,4 +1,5 @@
 const gridEl = document.querySelector(".grid");
+const gridWrapperEl = document.querySelector(".grid-wrapper");
 const mineCountDisplay = document.querySelector(".mine-count");
 const reset = document.querySelector(".reset");
 const timerDisplay = document.querySelector(".timer");
@@ -326,7 +327,7 @@ function flagCell(e) {
 }
 
 function displayGame(level) {
-  gridEl.classList.add(gameMode[level].level);
+  gridWrapperEl.classList.add(gameMode[level].level);
   gridEl.dataset.level = gameMode[level].level;
   timerDisplay.textContent = timer.time;
   mineCountDisplay.textContent = gameMode[level].mines - flaggedMines;

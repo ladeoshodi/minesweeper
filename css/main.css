@@ -5,9 +5,6 @@
 body {
   margin: 0;
   padding: 0;
-}
-
-.grid-wrapper {
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -16,30 +13,43 @@ body {
   flex-direction: column;
 }
 
+.grid-wrapper {
+  background-color: #e8dfdf85;
+}
+
 .game-panel {
   display: flex;
   justify-content: space-around;
   align-items: center;
   gap: 20px;
-  margin-bottom: 10px;
-  border: 1px solid black;
-}
-
-.reset {
-  padding: 5px 10px;
-  font-size: 1.6rem;
-}
-
-.beginner {
-  min-width: 450px;
-  width: 450px;
   border: 10px solid #b57575;
   padding: 20px;
 }
 
-.beginner > .cell {
-  width: 41px;
-  height: 41px;
+.mine-display {
+  color: red;
+  background-color: black;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2rem;
+  padding: 10px;
+}
+
+.reset {
+  padding: 5px;
+  font-size: 1.6rem;
+  width: 50%;
+}
+
+.timer-display {
+  color: red;
+  background-color: black;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2rem;
+  padding: 10px;
 }
 
 .grid {
@@ -48,7 +58,8 @@ body {
   justify-content: center;
   align-items: center;
   gap: 2px;
-  background-color: #e8dfdf85;
+  border: 10px solid #b57575;
+  padding: 20px;
 }
 
 .cell {
@@ -94,4 +105,15 @@ body {
 
 .reset:hover {
   cursor: pointer;
+}
+
+/* level dimensions */
+.beginner {
+  min-width: 450px;
+  width: 450px;
+}
+
+.beginner > .grid > .cell {
+  width: 41px;
+  height: 41px;
 }
