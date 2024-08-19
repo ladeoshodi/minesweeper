@@ -170,6 +170,16 @@ function startTimer() {
   timer.hasStarted = true;
 }
 
+function isGameWon(level) {
+  const revealedCells = Array.from(document.querySelectorAll(".flag"));
+  if (revealedCells.length === gameMode[level].mines) {
+    return revealedCells.every((revealedCell) => {
+      return gameBoardHidden[revealedCell.dataset.index] === minesweeper.mine;
+    });
+  }
+  return false;
+}
+
 function gameOver() {
   gameBoard.forEach((cell) => {
     cell.removeEventListener("click", revealCell);
@@ -307,6 +317,10 @@ function flagCell(e) {
     }
     mineCountDisplay.textContent = gameMode[level].mines - flaggedMines;
   }
+  if (isGameWon(level)) {
+    gameOver();
+    alert("You win!!!");
+  }
 }
 
 function displayGame(level) {
@@ -314,6 +328,9 @@ function displayGame(level) {
   gridEl.dataset.level = gameMode[level].level;
   timerDisplay.textContent = timer.time;
   mineCountDisplay.textContent = gameMode[level].mines - flaggedMines;
+
+  loadGameBoardHidden(level);
+
   for (let i = 0; i < gameMode[level].gridSize; i++) {
     const cell = document.createElement("div");
     cell.classList.add("cell");
@@ -325,7 +342,6 @@ function displayGame(level) {
   }
 }
 
-loadGameBoardHidden("beginner");
 displayGame("beginner");
 
 // todo: For Debugging minesweeper game (remove later)

@@ -12,6 +12,7 @@ body {
 }
 
 .beginner {
+  min-width: 405px;
   width: 405px;
 }
 
