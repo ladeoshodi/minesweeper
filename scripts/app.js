@@ -1,7 +1,7 @@
 const gridEl = document.querySelector(".grid");
-const mineCountDisplay = document.querySelector(".mine-count span");
+const mineCountDisplay = document.querySelector(".mine-count");
 const reset = document.querySelector(".reset");
-const timerDisplay = document.querySelector(".timer span");
+const timerDisplay = document.querySelector(".timer");
 
 const gameMode = {
   beginner: {
@@ -368,4 +368,4 @@ function displayGameBoardHidden() {
 
 // todo: remove this
 // console.log(gameBoardHidden);
-// displayGameBoardHidden();
+displayGameBoardHidden();

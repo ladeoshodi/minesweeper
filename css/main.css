@@ -3,22 +3,42 @@
 }
 
 body {
-  height: 100vh;
   margin: 0;
   padding: 0;
+}
+
+.grid-wrapper {
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.game-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+
+.reset {
+  padding: 5px 10px;
+  font-size: 1.6rem;
 }
 
 .beginner {
   min-width: 405px;
   width: 405px;
+  border: 5px solid #bbb6b6;
+  padding: 10px;
 }
 
 .beginner > .cell {
-  width: 45px;
-  height: 45px;
+  width: 39px;
+  height: 39px;
 }
 
 .grid {
@@ -26,13 +46,16 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  gap: 2px;
+  background-color: #e7e3e385;
 }
 
 .cell {
-  border: 1px solid black;
+  border: 1px solid #f2e5e5;
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: -5px 5px 4px -1px #b99c93;
 }
 
 .cell:hover {
@@ -53,7 +76,7 @@ body {
 }
 
 .blank {
-  background-color: rgba(128, 128, 128, 50%);
+  background-color: rgba(184, 175, 175, 50%);
 }
 
 .safe {
