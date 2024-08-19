@@ -368,4 +368,4 @@ function displayGameBoardHidden() {
 
 // todo: remove this
 // console.log(gameBoardHidden);
-displayGameBoardHidden();
+// displayGameBoardHidden();

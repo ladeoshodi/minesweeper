@@ -18,10 +18,11 @@ body {
 
 .game-panel {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   gap: 20px;
   margin-bottom: 10px;
+  border: 1px solid black;
 }
 
 .reset {
@@ -30,15 +31,15 @@ body {
 }
 
 .beginner {
-  min-width: 405px;
-  width: 405px;
-  border: 5px solid #bbb6b6;
-  padding: 10px;
+  min-width: 450px;
+  width: 450px;
+  border: 10px solid #b57575;
+  padding: 20px;
 }
 
 .beginner > .cell {
-  width: 39px;
-  height: 39px;
+  width: 41px;
+  height: 41px;
 }
 
 .grid {
@@ -47,7 +48,7 @@ body {
   justify-content: center;
   align-items: center;
   gap: 2px;
-  background-color: #e7e3e385;
+  background-color: #e8dfdf85;
 }
 
 .cell {
@@ -68,23 +69,27 @@ body {
 }
 
 #active-mine {
-  background-color: rgb(82, 0, 0, 60%);
+  background-color: rgb(82, 0, 0, 70%);
+  box-shadow: unset;
 }
 
 .mine {
-  background-color: rgba(255, 0, 0, 60%);
+  background-color: rgba(255, 0, 0, 70%);
 }
 
 .blank {
-  background-color: rgba(184, 175, 175, 50%);
+  background-color: rgba(184, 175, 175, 70%);
+  box-shadow: unset;
 }
 
 .safe {
-  background-color: rgba(0, 128, 0, 50%);
+  background-color: rgba(0, 128, 0, 70%);
+  box-shadow: unset;
 }
 
 .flag {
-  background-color: rgba(0, 55, 128, 0.5);
+  background-color: rgba(0, 55, 128, 70%);
+  box-shadow: unset;
 }
 
 .reset:hover {
