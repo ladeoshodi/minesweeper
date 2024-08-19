@@ -63,3 +63,7 @@ body {
 .flag {
   background-color: rgba(0, 55, 128, 0.5);
 }
+
+.reset:hover {
+  cursor: pointer;
+}

@@ -284,6 +284,7 @@ function revealCell(e) {
     gameBoard[cellIndex].textContent = gameBoardHidden[cellIndex];
     if (gameBoardHidden[cellIndex] === minesweeper.mine) {
       gameBoard[cellIndex].id = "active-mine";
+      reset.textContent = "😵";
       revealAllMines();
       gameOver();
     } else if (gameBoardHidden[cellIndex] === minesweeper.blank) {
@@ -319,6 +320,7 @@ function flagCell(e) {
   }
   if (isGameWon(level)) {
     gameOver();
+    reset.textContent = "😎";
     alert("You win!!!");
   }
 }
@@ -342,6 +344,19 @@ function displayGame(level) {
   }
 }
 
+function startNewGame() {
+  const level = gridEl.dataset.level;
+  gameOver();
+  timer.time = 0;
+  flaggedMines = 0;
+  gameBoard.splice(0);
+  reset.textContent = "🙂";
+  gridEl.replaceChildren();
+  displayGame(level);
+}
+
+reset.addEventListener("click", startNewGame);
+
 displayGame("beginner");
 
 // todo: For Debugging minesweeper game (remove later)
@@ -352,5 +367,5 @@ function displayGameBoardHidden() {
 }
 
 // todo: remove this
-console.log(gameBoardHidden);
+// console.log(gameBoardHidden);
 // displayGameBoardHidden();
