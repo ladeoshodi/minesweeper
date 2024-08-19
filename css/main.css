@@ -11,8 +11,13 @@ body {
   align-items: center;
 }
 
-.grid-wrapper {
+.beginner {
   width: 405px;
+}
+
+.beginner > .cell {
+  width: 45px;
+  height: 45px;
 }
 
 .grid {
@@ -23,8 +28,6 @@ body {
 }
 
 .cell {
-  width: 45px;
-  height: 45px;
   border: 1px solid black;
   display: flex;
   justify-content: center;

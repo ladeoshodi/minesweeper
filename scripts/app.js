@@ -1,4 +1,7 @@
 const gridEl = document.querySelector(".grid");
+const mineCountDisplay = document.querySelector(".mine-count span");
+const reset = document.querySelector(".reset");
+const timerDisplay = document.querySelector(".timer span");
 
 const gameMode = {
   beginner: {
@@ -11,16 +14,19 @@ const gameMode = {
     },
   },
 };
-
 const minesweeper = {
   mine: "💣",
   blank: "",
   flag: "🚩",
 };
-
 const gameBoard = [];
+const timer = {
+  time: 0,
+  hasStarted: false,
+};
+
 let gameBoardHidden;
-let timer = 0;
+let timerIntervalInt;
 
 function canMoveToTop(position, gridWidth) {
   return position >= gridWidth;
@@ -153,11 +159,23 @@ function loadGameBoardHidden(level) {
   });
 }
 
+function startTimer() {
+  if (!timer.hasStarted) {
+    timerIntervalInt = setInterval(() => {
+      timer.time += 1;
+      timerDisplay.textContent = timer.time;
+    }, 1000);
+  }
+  timer.hasStarted = true;
+}
+
 function gameOver() {
   gameBoard.forEach((cell) => {
     cell.removeEventListener("click", revealCell);
     cell.removeEventListener("contextmenu", flagCell);
   });
+  clearInterval(timerIntervalInt);
+  timer.hasStarted = false;
 }
 
 function revealAllMines() {
@@ -248,6 +266,7 @@ function revealAdjacentBlankSquares(level, startPos) {
 }
 
 function revealCell(e) {
+  startTimer();
   const cellIndex = Number(e.target.dataset.index);
   const level = gridEl.dataset.level;
   if (!gameBoard[cellIndex].classList.contains("flag")) {
@@ -267,6 +286,7 @@ function revealCell(e) {
 
 function flagCell(e) {
   e.preventDefault();
+  startTimer();
   const cellIndex = e.target.dataset.index;
   if (
     !gameBoard[cellIndex].classList.contains("blank") &&
@@ -282,7 +302,9 @@ function flagCell(e) {
 }
 
 function displayGame(level) {
+  gridEl.classList.add(gameMode[level].level);
   gridEl.dataset.level = gameMode[level].level;
+  timerDisplay.textContent = timer.time;
   for (let i = 0; i < gameMode[level].gridSize; i++) {
     const cell = document.createElement("div");
     cell.classList.add("cell");
