@@ -202,7 +202,10 @@ function revealAllMines() {
 }
 
 function revealSquare(position) {
-  if (!gameBoard[position].classList.contains("revealed")) {
+  if (
+    !gameBoard[position].classList.contains("revealed") &&
+    !gameBoard[position].classList.contains("flag")
+  ) {
     if (gameBoardHidden[position] === minesweeper.blank) {
       gameBoard[position].classList.add("blank");
       gameBoard[position].classList.add("revealed");
@@ -304,10 +307,7 @@ function flagCell(e) {
   startTimer();
   const cellIndex = e.target.dataset.index;
   const level = gridEl.dataset.level;
-  if (
-    !gameBoard[cellIndex].classList.contains("blank") &&
-    !gameBoard[cellIndex].classList.contains("safe")
-  ) {
+  if (!gameBoard[cellIndex].classList.contains("revealed")) {
     if (!gameBoard[cellIndex].classList.contains("flag")) {
       if (flaggedMines < gameMode[level].mines) {
         gameBoard[cellIndex].classList.add("flag");
@@ -375,4 +375,4 @@ function displayGameBoardHidden() {
 
 // todo: remove this
 // console.log(gameBoardHidden);
-displayGameBoardHidden();
+// displayGameBoardHidden();
