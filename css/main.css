@@ -135,6 +135,11 @@ body {
 .levels button:active {
   transform: translate(-1px, 1px);
 }
+
+.how-to {
+  margin-bottom: 3px;
+}
+
 /* level dimensions */
 .beginner {
   width: 350px;

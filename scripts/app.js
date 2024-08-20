@@ -195,9 +195,9 @@ function startTimer() {
 }
 
 function isGameWon(level) {
-  const revealedCells = Array.from(document.querySelectorAll(".flag"));
-  if (revealedCells.length === gameMode[level].mines) {
-    return revealedCells.every((revealedCell) => {
+  const flaggedCells = Array.from(document.querySelectorAll(".flag"));
+  if (flaggedCells.length === gameMode[level].mines) {
+    return flaggedCells.every((revealedCell) => {
       return gameBoardHidden[revealedCell.dataset.index] === minesweeper.mine;
     });
   }
