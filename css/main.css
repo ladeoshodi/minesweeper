@@ -14,6 +14,7 @@ body {
 
 .grid-wrapper {
   background-color: #e8dfdf85;
+  margin-bottom: 8px;
 }
 
 .game-panel {
@@ -113,6 +114,21 @@ body {
   background-color: #fff9f2;
 }
 
+.levels button {
+  border: 0;
+  border-radius: 2px;
+  padding: 9px 15px;
+  background-color: white;
+  box-shadow: -5px 5px 5px 0px #b99c93;
+}
+.levels button:hover {
+  cursor: pointer;
+  background-color: #b57575;
+}
+
+.levels button:active {
+  transform: translate(-1px, 1px);
+}
 /* level dimensions */
 .beginner {
   width: 350px;
