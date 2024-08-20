@@ -5,6 +5,9 @@ const reset = document.querySelector(".reset");
 const timerDisplay = document.querySelector(".timer");
 const dialog = document.querySelector(".result-dialog");
 const closeResultDialog = document.querySelector(".result-dialog button");
+const beginnerLevel = document.querySelector(".beginner-level");
+const intermediateLevel = document.querySelector(".intermediate-level");
+const expertLevel = document.querySelector(".expert-level");
 
 const gameMode = {
   beginner: {
@@ -347,21 +350,25 @@ function displayGame(level) {
   }
 }
 
-function startNewGame() {
-  const level = gridEl.dataset.level;
+function startNewGame(level = "") {
+  const newLevel = level || gridEl.dataset.level;
   gameOver();
   timer.time = 0;
   flaggedMines = 0;
   gameBoard.splice(0);
   reset.textContent = "🙂";
   gridEl.replaceChildren();
-  displayGame(level);
+  displayGame(newLevel);
 }
 
-reset.addEventListener("click", startNewGame);
+reset.addEventListener("click", () => startNewGame());
 
 closeResultDialog.addEventListener("click", () => {
   dialog.close();
+});
+
+beginnerLevel.addEventListener("click", (e) => {
+  startNewGame(e.target.dataset.value);
 });
 
 displayGame("beginner");
