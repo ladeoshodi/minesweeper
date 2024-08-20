@@ -107,6 +107,11 @@ body {
   cursor: pointer;
 }
 
+.result-dialog {
+  border: 3px solid #b57575;
+  background-color: #fff9f2;
+}
+
 /* level dimensions */
 .beginner {
   min-width: 450px;
