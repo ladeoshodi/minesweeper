@@ -60,6 +60,7 @@ body {
   gap: 2px;
   border: 10px solid #b57575;
   padding: 20px;
+  cursor: pointer;
 
   -webkit-touch-callout: none; /* iOS */
   -webkit-user-select: none; /* Safari */
@@ -76,10 +77,6 @@ body {
   box-shadow: -5px 5px 4px -1px #b99c93;
   width: 30px;
   height: 30px;
-}
-
-.cell:hover {
-  cursor: pointer;
 }
 
 #active-mine,
