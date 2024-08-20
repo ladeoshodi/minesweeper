@@ -4,8 +4,7 @@
 
 body {
   margin: 0;
-  padding: 0;
-  height: 100vh;
+  padding: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -68,6 +67,8 @@ body {
   justify-content: center;
   align-items: center;
   box-shadow: -5px 5px 4px -1px #b99c93;
+  width: 30px;
+  height: 30px;
 }
 
 .cell:hover {
@@ -114,11 +115,9 @@ body {
 
 /* level dimensions */
 .beginner {
-  min-width: 450px;
-  width: 450px;
+  width: 350px;
 }
 
-.beginner > .grid > .cell {
-  width: 41px;
-  height: 41px;
+.intermediate {
+  width: 600px;
 }

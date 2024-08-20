@@ -19,6 +19,15 @@ const gameMode = {
       return this.gridWidth * this.gridLength;
     },
   },
+  intermediate: {
+    level: "intermediate",
+    gridWidth: 16,
+    gridLength: 16,
+    mines: 40,
+    get gridSize() {
+      return this.gridWidth * this.gridLength;
+    },
+  },
 };
 const minesweeper = {
   mine: "💣",
@@ -368,18 +377,20 @@ closeResultDialog.addEventListener("click", () => {
 });
 
 beginnerLevel.addEventListener("click", (e) => {
+  gridWrapperEl.classList.remove("beginner", "intermediate");
+  startNewGame(e.target.dataset.value);
+});
+
+intermediateLevel.addEventListener("click", (e) => {
+  gridWrapperEl.classList.remove("beginner", "intermediate");
   startNewGame(e.target.dataset.value);
 });
 
 displayGame("beginner");
 
-// todo: For Debugging minesweeper game (remove later)
+// !cheat code:reveal hidden board
 function displayGameBoardHidden() {
   gameBoard.forEach((cell, index) => {
     cell.textContent = gameBoardHidden[index];
   });
 }
-
-// todo: remove this
-// console.log(gameBoardHidden);
-// displayGameBoardHidden();
