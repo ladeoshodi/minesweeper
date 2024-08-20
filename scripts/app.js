@@ -42,6 +42,7 @@ const minesweeper = {
   mine: "💣",
   blank: "",
   flag: "🚩",
+  cross: "❌",
 };
 const gameBoard = [];
 const timer = {
@@ -218,6 +219,11 @@ function revealAllMines() {
     if (cell === minesweeper.mine) {
       gameBoard[index].textContent = cell;
       gameBoard[index].classList.add("mine");
+    } else if (
+      cell !== minesweeper.mine &&
+      gameBoard[index].classList.contains("flag")
+    ) {
+      gameBoard[index].textContent = minesweeper.cross;
     }
   });
 }
