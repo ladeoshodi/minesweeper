@@ -61,6 +61,7 @@ body {
   border: 10px solid #b57575;
   padding: 20px;
 
+  -webkit-touch-callout: none; /* iOS */
   -webkit-user-select: none; /* Safari */
   -moz-user-select: none; /* Old versions of Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
