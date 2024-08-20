@@ -28,6 +28,15 @@ const gameMode = {
       return this.gridWidth * this.gridLength;
     },
   },
+  expert: {
+    level: "expert",
+    gridWidth: 30,
+    gridLength: 16,
+    mines: 99,
+    get gridSize() {
+      return this.gridWidth * this.gridLength;
+    },
+  },
 };
 const minesweeper = {
   mine: "💣",
@@ -377,12 +386,23 @@ closeResultDialog.addEventListener("click", () => {
 });
 
 beginnerLevel.addEventListener("click", (e) => {
-  gridWrapperEl.classList.remove("beginner", "intermediate");
+  for (const level in gameMode) {
+    gridWrapperEl.classList.remove(gameMode[level].level);
+  }
   startNewGame(e.target.dataset.value);
 });
 
 intermediateLevel.addEventListener("click", (e) => {
-  gridWrapperEl.classList.remove("beginner", "intermediate");
+  for (const level in gameMode) {
+    gridWrapperEl.classList.remove(gameMode[level].level);
+  }
+  startNewGame(e.target.dataset.value);
+});
+
+expertLevel.addEventListener("click", (e) => {
+  for (const level in gameMode) {
+    gridWrapperEl.classList.remove(gameMode[level].level);
+  }
   startNewGame(e.target.dataset.value);
 });
 
