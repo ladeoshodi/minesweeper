@@ -120,8 +120,23 @@ body {
   background-color: #fff9f2;
 }
 
+.high-score-dialog {
+  padding-right: 50px;
+}
+
 .high-score-dialog > p:first-child {
   font-weight: bold;
+}
+
+.high-score-action-buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.beginner-high-score,
+.intermediate-high-score,
+.expert-high-score {
+  font-style: italic;
 }
 
 .levels button {

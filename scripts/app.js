@@ -14,6 +14,11 @@ const closeHighScoreDialog = document.querySelector(".close-high-score-dialog");
 const resetHighScore = document.querySelector(".reset-high-score");
 const newHighScore = document.querySelector(".new-high-score");
 const newHighScoreName = document.querySelector("#new-high-score-name");
+const beginnerHighScore = document.querySelector(".beginner-high-score");
+const intermediateHighScore = document.querySelector(
+  ".intermediate-high-score"
+);
+const expertHighScore = document.querySelector(".expert-high-score");
 
 const gameMode = {
   beginner: {
@@ -391,6 +396,18 @@ function startNewGame(level = "") {
   displayGame(newLevel);
 }
 
+function loadHighScores() {
+  const highScores = JSON.parse(localStorage.getItem("highscores"));
+  if (highScores["beginner"]) {
+    beginnerHighScore.textContent = `${highScores["beginner"].name}: ${highScores["beginner"].time} seconds`;
+  }
+  if (highScores["intermediate"]) {
+    beginnerHighScore.textContent = `${highScores["intermediate"].name}: ${highScores["intermediate"].time} seconds`;
+  }
+  if (highScores["expert"]) {
+    beginnerHighScore.textContent = `${highScores["expert"].name}: ${highScores["expert"].time} seconds`;
+  }
+}
 reset.addEventListener("click", () => startNewGame());
 
 closeResultDialog.addEventListener("click", () => {
@@ -419,6 +436,7 @@ expertLevel.addEventListener("click", (e) => {
 });
 
 highScore.addEventListener("click", () => {
+  loadHighScores();
   highScoreDialog.showModal();
 });
 
