@@ -409,6 +409,8 @@ function startNewGame(level = "") {
   flaggedMines = 0;
   gameBoard.splice(0);
   reset.textContent = "🙂";
+  clickToFlagBtn.classList.remove("active-flag");
+  clickToFlag = false;
   gridEl.replaceChildren();
   displayGame(newLevel);
 }
