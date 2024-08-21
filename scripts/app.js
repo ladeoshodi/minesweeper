@@ -8,7 +8,7 @@ const closeResultDialog = document.querySelector(".result-dialog button");
 const beginnerLevel = document.querySelector(".beginner-level");
 const intermediateLevel = document.querySelector(".intermediate-level");
 const expertLevel = document.querySelector(".expert-level");
-const highScore = document.querySelector(".high-score");
+const highScoreBtn = document.querySelector(".high-score");
 const highScoreDialog = document.querySelector(".high-score-dialog");
 const closeHighScoreDialog = document.querySelector(".close-high-score-dialog");
 const resetHighScore = document.querySelector(".reset-high-score");
@@ -362,6 +362,13 @@ function flagCell(e) {
   if (isGameWon(level)) {
     gameOver();
     reset.textContent = "😎";
+    let currentHighScore = getCurrentHighScore(level)
+      ? Number(getCurrentHighScore(level).time)
+      : Infinity;
+
+    if (timer.time < currentHighScore) {
+      newHighScore.classList.remove("hidden");
+    }
     resultDialog.showModal();
   }
 }
@@ -396,21 +403,44 @@ function startNewGame(level = "") {
   displayGame(newLevel);
 }
 
-function loadHighScores() {
-  const highScores = JSON.parse(localStorage.getItem("highscores"));
-  if (highScores["beginner"]) {
-    beginnerHighScore.textContent = `${highScores["beginner"].name}: ${highScores["beginner"].time} seconds`;
-  }
-  if (highScores["intermediate"]) {
-    beginnerHighScore.textContent = `${highScores["intermediate"].name}: ${highScores["intermediate"].time} seconds`;
-  }
-  if (highScores["expert"]) {
-    beginnerHighScore.textContent = `${highScores["expert"].name}: ${highScores["expert"].time} seconds`;
-  }
+function getCurrentHighScore(level) {
+  return JSON.parse(localStorage.getItem(level));
 }
+
+function loadHighScores() {
+  const beginnerHS = getCurrentHighScore("beginner");
+  const intermediateHS = getCurrentHighScore("intermediate");
+  const expertHS = getCurrentHighScore("expert");
+
+  beginnerHighScore.textContent = beginnerHS
+    ? `${beginnerHS.name}: ${beginnerHS.time} seconds`
+    : "Not set";
+
+  intermediateHighScore.textContent = intermediateHS
+    ? `${intermediateHS.name}: ${intermediateHS.time} seconds`
+    : "Not set";
+
+  expertHighScore.textContent = expertHS
+    ? `${expertHS.name}: ${expertHS.time} seconds`
+    : "Not set";
+}
+
 reset.addEventListener("click", () => startNewGame());
 
 closeResultDialog.addEventListener("click", () => {
+  const level = gridEl.dataset.level;
+  const newHighScoreWinner = newHighScoreName.value;
+  if (newHighScoreWinner) {
+    localStorage.setItem(
+      level,
+      JSON.stringify({
+        time: timer.time,
+        name: newHighScoreWinner,
+      })
+    );
+  }
+  newHighScoreName.value = "";
+  newHighScore.classList.add("hidden");
   resultDialog.close();
 });
 
@@ -435,13 +465,18 @@ expertLevel.addEventListener("click", (e) => {
   startNewGame(e.target.dataset.value);
 });
 
-highScore.addEventListener("click", () => {
+highScoreBtn.addEventListener("click", () => {
   loadHighScores();
   highScoreDialog.showModal();
 });
 
 closeHighScoreDialog.addEventListener("click", () => {
   highScoreDialog.close();
+});
+
+resetHighScore.addEventListener("click", () => {
+  localStorage.clear();
+  loadHighScores();
 });
 
 displayGame("beginner");
