@@ -19,9 +19,9 @@ body {
 
 .game-panel {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 5px;
   border: 10px solid #b57575;
   padding: 20px;
 }
@@ -36,10 +36,16 @@ body {
   padding: 10px;
 }
 
-.reset {
-  padding: 5px;
+.reset,
+.high-score {
+  padding: 2px;
   font-size: 1.6rem;
   width: 50%;
+}
+
+.reset:hover,
+.high-score:hover {
+  cursor: pointer;
 }
 
 .timer-display {
@@ -108,13 +114,14 @@ body {
   box-shadow: unset;
 }
 
-.reset:hover {
-  cursor: pointer;
-}
-
-.result-dialog {
+.result-dialog,
+.high-score-dialog {
   border: 3px solid #b57575;
   background-color: #fff9f2;
+}
+
+.high-score-dialog > p:first-child {
+  font-weight: bold;
 }
 
 .levels button {
@@ -135,6 +142,10 @@ body {
 
 .how-to {
   margin-bottom: 3px;
+}
+
+.hidden {
+  display: none;
 }
 
 /* level dimensions */

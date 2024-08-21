@@ -26,12 +26,32 @@
           <div class="timer-label">Timer:</div>
           <div class="timer"></div>
         </div>
+        <button class="high-score">🏆</button>
       </div>
       <div class="grid"></div>
     </div>
     <dialog class="result-dialog">
       <p>Congrats, you win!!! 🎉</p>
+      <div class="new-high-score hidden">
+        <label for="new-high-score-name">New high score 🏆</label>
+        <input
+          type="text"
+          name="new-high-score-name"
+          id="new-high-score-name"
+          placeholder="Enter Name"
+        />
+      </div>
       <button>Ok</button>
+    </dialog>
+    <dialog class="high-score-dialog">
+      <p>Best time:</p>
+      <p class="beginner-high-score">Beginner: <span>Not set</span></p>
+      <p class="intermediate-high-score">Intermediate: <span>Not set</span></p>
+      <p class="expert-high-score">Expert: <span>Not set</span></p>
+      <div class="high-score-action-buttons">
+        <button class="reset-high-score">reset</button>
+        <button class="close-high-score-dialog">Ok</button>
+      </div>
     </dialog>
     <div class="levels">
       <button class="beginner-level" data-value="beginner">Beginner</button>

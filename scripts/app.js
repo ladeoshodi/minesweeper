@@ -3,11 +3,17 @@ const gridWrapperEl = document.querySelector(".grid-wrapper");
 const mineCountDisplay = document.querySelector(".mine-count");
 const reset = document.querySelector(".reset");
 const timerDisplay = document.querySelector(".timer");
-const dialog = document.querySelector(".result-dialog");
+const resultDialog = document.querySelector(".result-dialog");
 const closeResultDialog = document.querySelector(".result-dialog button");
 const beginnerLevel = document.querySelector(".beginner-level");
 const intermediateLevel = document.querySelector(".intermediate-level");
 const expertLevel = document.querySelector(".expert-level");
+const highScore = document.querySelector(".high-score");
+const highScoreDialog = document.querySelector(".high-score-dialog");
+const closeHighScoreDialog = document.querySelector(".close-high-score-dialog");
+const resetHighScore = document.querySelector(".reset-high-score");
+const newHighScore = document.querySelector(".new-high-score");
+const newHighScoreName = document.querySelector("#new-high-score-name");
 
 const gameMode = {
   beginner: {
@@ -351,7 +357,7 @@ function flagCell(e) {
   if (isGameWon(level)) {
     gameOver();
     reset.textContent = "😎";
-    dialog.showModal();
+    resultDialog.showModal();
   }
 }
 
@@ -388,7 +394,7 @@ function startNewGame(level = "") {
 reset.addEventListener("click", () => startNewGame());
 
 closeResultDialog.addEventListener("click", () => {
-  dialog.close();
+  resultDialog.close();
 });
 
 beginnerLevel.addEventListener("click", (e) => {
@@ -410,6 +416,14 @@ expertLevel.addEventListener("click", (e) => {
     gridWrapperEl.classList.remove(gameMode[level].level);
   }
   startNewGame(e.target.dataset.value);
+});
+
+highScore.addEventListener("click", () => {
+  highScoreDialog.showModal();
+});
+
+closeHighScoreDialog.addEventListener("click", () => {
+  highScoreDialog.close();
 });
 
 displayGame("beginner");
