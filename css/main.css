@@ -52,6 +52,12 @@ body {
   cursor: pointer;
 }
 
+.reset:active,
+.high-score:active,
+.click-to-flag:active {
+  transform: translate(-1px, 1px);
+}
+
 .timer-display {
   color: red;
   background-color: black;
@@ -116,6 +122,10 @@ body {
 .flag {
   background-color: rgba(0, 55, 128, 70%);
   box-shadow: unset;
+}
+
+.active-flag {
+  background-color: rgba(0, 55, 128, 70%);
 }
 
 .result-dialog,

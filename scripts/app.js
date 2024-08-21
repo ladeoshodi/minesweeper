@@ -19,6 +19,7 @@ const intermediateHighScore = document.querySelector(
   ".intermediate-high-score"
 );
 const expertHighScore = document.querySelector(".expert-high-score");
+const clickToFlagBtn = document.querySelector(".click-to-flag");
 
 const gameMode = {
   beginner: {
@@ -64,6 +65,7 @@ const timer = {
 let gameBoardHidden;
 let timerIntervalInt;
 let flaggedMines = 0;
+let clickToFlag = false;
 
 function canMoveToTop(position, gridWidth) {
   return position >= gridWidth;
@@ -218,7 +220,7 @@ function isGameWon(level) {
 
 function gameOver() {
   gameBoard.forEach((cell) => {
-    cell.removeEventListener("click", revealCell);
+    cell.removeEventListener("click", handleClick);
     cell.removeEventListener("contextmenu", flagCell);
   });
   clearInterval(timerIntervalInt);
@@ -373,6 +375,14 @@ function flagCell(e) {
   }
 }
 
+function handleClick(e) {
+  if (clickToFlag) {
+    flagCell(e);
+  } else {
+    revealCell(e);
+  }
+}
+
 function displayGame(level) {
   gridWrapperEl.classList.add(gameMode[level].level);
   gridEl.dataset.level = gameMode[level].level;
@@ -385,7 +395,7 @@ function displayGame(level) {
     const cell = document.createElement("div");
     cell.classList.add("cell");
     cell.dataset.index = i;
-    cell.addEventListener("click", revealCell);
+    cell.addEventListener("click", handleClick);
     cell.addEventListener("contextmenu", flagCell);
     gameBoard.push(cell);
     gridEl.appendChild(cell);
@@ -477,6 +487,11 @@ closeHighScoreDialog.addEventListener("click", () => {
 resetHighScore.addEventListener("click", () => {
   localStorage.clear();
   loadHighScores();
+});
+
+clickToFlagBtn.addEventListener("click", (e) => {
+  e.target.classList.toggle("active-flag");
+  clickToFlag = clickToFlag ? false : true;
 });
 
 displayGame("beginner");
