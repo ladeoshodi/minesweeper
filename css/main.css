@@ -37,14 +37,18 @@ body {
 }
 
 .reset,
-.high-score {
-  padding: 2px;
+.high-score,
+.click-to-flag {
   font-size: 1.6rem;
-  width: 50%;
+  padding: 3px;
+  border: 1px solid #b57575;
+  border-radius: 5px;
+  box-shadow: -2px 2px 4px 0px #b57575;
 }
 
 .reset:hover,
-.high-score:hover {
+.high-score:hover,
+.click-to-flag:hover {
   cursor: pointer;
 }
 
