@@ -6,6 +6,8 @@ Minesweeper is a game where mines are hidden in a grid of squares. Safe squares 
 
 **To win, you must correctly flag all the mines in the grid!**
 
+[How to play Minesweeper](https://minesweepergame.com/strategy/how-to-play-minesweeper.php)
+
 [Click to play game live](https://ladeoshodi.github.io/minesweeper/)
 
 ![Minesweeper](assets/minesweeper.png)
