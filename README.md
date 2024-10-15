@@ -20,7 +20,7 @@ You can learn to play Minesweeper following this link: [How to play Minesweeper]
 
 Play the game here: [Minesweeper ![Minesweeper logo small](assets/minesweeper-logo-small.png)](https://ladeoshodi.github.io/minesweeper/)
 
-![Minesweeper](assets/minesweeper.png)
+![Minesweeper](assets/minesweeper.gif)
 
 ### The Brief
 
